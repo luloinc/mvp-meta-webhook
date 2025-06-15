@@ -5,9 +5,22 @@ from fastapi.responses import JSONResponse
 app = FastAPI()
 
 
+@app.get("/webhook")
+async def webhook(request: Request):
+    # Get quary params and headers as a dict
+    query_params = dict(request.query_params)
+    headers = dict(request.headers)
+
+    print("Query params:", query_params)
+    print("Headers:", headers)
+
+    return {"message": "OK"}
+
+
 @app.post("/webhook")
 async def webhook(request: Request):
-    # Get headers as a dict
+    # Get quary params and headers as a dict
+    query_params = dict(request.query_params)
     headers = dict(request.headers)
     
     # Get body as JSON (this will raise an error if body is not valid JSON)
@@ -16,7 +29,8 @@ async def webhook(request: Request):
     except Exception:
         body = {"error": "Body is not valid JSON"}
 
+    print("Query params:", query_params)
     print("Headers:", headers)
     print("Body:", body)
 
-    return {"message": "Hello World"}
+    return {"message": "OK"}
